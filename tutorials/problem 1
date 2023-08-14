@@ -1,11 +1,17 @@
-#locate card 
+#locate card - linear search -- brute force method 
+from jovian.pythondsa import evaluate_test_cases 
 def locate_card(cards, query):
-    for i in range (len(cards)):
-        if cards[i] == query:
-            return i
-            break
-        
+    position = 0
+    while True:
+        if cards[position] == query:
+            return position
+        position+=1
+        if position == len(cards):
+            return -1
+    
 def main():
     cards = [13,11,10,7,4,3,1,0]
-    print(locate_card(cards,7))
+    print(locate_card(cards,0))
+    
+    
 main()
