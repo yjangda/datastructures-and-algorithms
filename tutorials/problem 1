@@ -1,17 +1,54 @@
 #locate card - linear search -- brute force method 
-from jovian.pythondsa import evaluate_test_cases 
-def locate_card(cards, query):
+from jovian.pythondsa import evaluate_test_cases
+def test_location(cards, query, mid):
+    mid_number = cards[mid]
+    if mid_number == query:
+        if mid - 1 >= 0 and cards[mid-1] == query:
+            return 'left'
+        else: 
+            return 'found'
+    elif mid_number < query:
+        return 'left'
+    else: 
+        return 'right'
+    
+     
+def locate_card_linear(cards, query):
     position = 0
-    while True:
+    while position < len(cards):
         if cards[position] == query:
             return position
         position+=1
-        if position == len(cards):
-            return -1
-    
+        
+    return -1
+
+
+def locate_card_binary(cards, query):
+    lo, hi = 0, len(cards) - 1
+    while lo <= hi:
+        mid = (lo + hi)//2
+        result = test_location(cards, query, mid)
+        if result == 'found':
+            return mid
+        elif result == 'left':
+            hi = mid - 1
+        elif result == 'right':
+            lo = mid + 1
+    return -1
+
+
 def main():
-    cards = [13,11,10,7,4,3,1,0]
-    print(locate_card(cards,0))
+    tests = []
+    tests.append({'input' : {
+        'cards': [13,11,10,7,4,3,1,0],
+        'query' : 7
+    },
+    'output' : 3
+                })
+    results_linear = [locate_card_linear(test['input']['cards'], test['input']['query']) == test['output'] for test in tests]
+    print(all(results_linear))
+    results_binary = [locate_card_binary(test['input']['cards'], test['input']['query']) == test['output'] for test in tests]
+    print(all(results_binary))
     
     
 main()
